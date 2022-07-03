@@ -37,5 +37,17 @@ export class AuthService {
     return true;
   }
 
-  async login(dataObj: LoginUserDto) {}
+  async login(dataObj: LoginUserDto) {
+    const userObj: User = await this.userRepository
+      .createQueryBuilder('u')
+      .where('u.email=:uemail', { uemail: dataObj.email })
+      .getOne();
+    if (!userObj) {
+      throw new ConflictException('Invalid user');
+    }
+    const payload: any = { name: userObj.name, sub: userObj.id };
+    return {
+      access_token: this.jwtService.sign(payload),
+    };
+  }
 }

@@ -6,23 +6,29 @@ import {
   ConflictException,
   Put,
   Param,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UserService } from './users.service';
 import { CreateUserDto } from '../structures/dto/create-user.dto';
 import { UpdateUserDto } from '../structures/dto/update-user.dto';
+import { JwtAuthGuard } from '../auth/jwt.auth.guard';
 
 @ApiTags('Users')
 @Controller('users')
 export class UsersController {
   constructor(private userService: UserService) {}
+
+  @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @Get()
   async getUsers() {
     try {
       return await this.userService.getUsers();
     } catch (error: any) {
-      throw new ConflictException(error.toString());
+      const message: string =
+        typeof error.message === 'string' ? error.message : 'Server error';
+      throw new ConflictException(message);
     }
   }
 
@@ -39,6 +45,7 @@ export class UsersController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @Put('/:id')
   async editUser(

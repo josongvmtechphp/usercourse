@@ -5,10 +5,11 @@ import { LocalAuthGuard } from './local.auth.guard';
 import { AuthService } from './auth.service';
 import { User } from '../structures/entity/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [PassportModule, TypeOrmModule.forFeature([User])],
   controllers: [AuthController],
-  providers: [LocalAuthGuard, AuthService],
+  providers: [LocalAuthGuard, AuthService, JwtService],
 })
 export class AuthModule {}

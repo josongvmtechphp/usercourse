@@ -6,6 +6,7 @@ import {
   BeforeUpdate,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { Configurations } from '../../Configuration';
 
 @Entity()
 export class User {
@@ -27,7 +28,7 @@ export class User {
     if (this.password) {
       this.password = await bcrypt.hash(
         this.password,
-        parseInt(process.env.SALT_ROUNDS),
+        Configurations.saltRound,
       );
     }
   }
