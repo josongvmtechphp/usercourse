@@ -1,7 +1,7 @@
 import { Injectable, ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { LoginUserDto } from 'src/structures/dto/login-user.dto';
-import { User } from 'src/structures/entity/user.entity';
+import { LoginUserDto } from 'src/database/dto/user/login-user.dto';
+import { User } from 'src/database/entity/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';

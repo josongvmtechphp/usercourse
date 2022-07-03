@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { LocalAuthGuard } from './local.auth.guard';
-import { LoginUserDto } from '../structures/dto/login-user.dto';
+import { LoginUserDto } from '../database/dto/user/login-user.dto';
 import { AuthService } from './auth.service';
 
 @ApiTags('Auth')

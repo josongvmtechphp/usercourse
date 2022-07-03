@@ -3,7 +3,7 @@ import { AuthController } from './auth.controller';
 import { PassportModule } from '@nestjs/passport';
 import { LocalAuthGuard } from './local.auth.guard';
 import { AuthService } from './auth.service';
-import { User } from '../structures/entity/user.entity';
+import { User } from '../database/entity/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
 

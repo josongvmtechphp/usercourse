@@ -13,13 +13,13 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ nullable: true })
+  @Column({ nullable: false })
   name: string;
 
-  @Column({ nullable: true, unique: true })
+  @Column({ nullable: false, unique: true })
   email: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: false })
   password: string;
 
   @BeforeInsert()

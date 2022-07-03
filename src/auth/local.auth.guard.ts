@@ -4,7 +4,7 @@ import {
   CanActivate,
   ExecutionContext,
 } from '@nestjs/common';
-import { UserCheckDto } from '../structures/dto/user.check.dto';
+import { UserCheckDto } from '../database/dto/user/user.check.dto';
 import { AuthService } from '../auth/auth.service';
 
 @Injectable()

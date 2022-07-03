@@ -9,14 +9,14 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { UserService } from './users.service';
-import { CreateUserDto } from '../structures/dto/create-user.dto';
-import { UpdateUserDto } from '../structures/dto/update-user.dto';
+import { UserService } from './user.service';
+import { CreateUserDto } from '../database/dto/user/create-user.dto';
+import { UpdateUserDto } from '../database/dto/user/update-user.dto';
 import { JwtAuthGuard } from '../auth/jwt.auth.guard';
 
 @ApiTags('Users')
-@Controller('users')
-export class UsersController {
+@Controller('user')
+export class UserController {
   constructor(private userService: UserService) {}
 
   @UseGuards(JwtAuthGuard)
