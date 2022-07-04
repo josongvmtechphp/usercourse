@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, MaxLength, Min } from 'class-validator';
+import { IsNotEmpty, MaxLength, IsUrl } from 'class-validator';
 
 export class CreateCourseDto {
   @ApiProperty()
@@ -14,6 +14,7 @@ export class CreateCourseDto {
 
   @ApiProperty()
   @IsNotEmpty()
+  @IsUrl()
   @MaxLength(300)
   url: string;
 }

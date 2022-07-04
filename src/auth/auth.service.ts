@@ -52,7 +52,9 @@ export class AuthService {
     }
     const payload: any = { name: userObj.name, sub: userObj.id };
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: this.jwtService.sign(payload, {
+        secret: Configurations.secret,
+      }),
     };
   }
 
@@ -74,8 +76,6 @@ export class AuthService {
       if (!userObj) {
         throw new UnauthorizedException('Invalid token');
       }
-
-      throw new UnauthorizedException('Hi');
 
       return userObj;
     } catch (errorObj: any) {

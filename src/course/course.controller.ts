@@ -6,11 +6,15 @@ import {
   Post,
   Body,
   Headers,
+  Param,
+  Put,
+  Delete,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CourseService } from './course.service';
 import { JwtAuthGuard } from '../auth/jwt.auth.guard';
-import { CreateCourseDto } from 'src/database/dto/course/create-course.dto';
+import { CreateCourseDto } from '../database/dto/course/create-course.dto';
+import { EditCourseDto } from '../database/dto/course/edit-course.dto';
 
 @ApiTags('Courses')
 @Controller('course')
@@ -38,7 +42,45 @@ export class CourseController {
     @Headers('Authorization') auth: string,
   ) {
     try {
-      return await this.courseService.createCourse({ createCourseDto, auth });
+      await this.courseService.createCourse({ createCourseDto, auth });
+      return { success: true };
+    } catch (error: any) {
+      const message: string =
+        typeof error.message === 'string' ? error.message : 'Server error';
+      throw new ConflictException(message);
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @Put('/:id')
+  async editCourse(
+    @Body() editCourseDto: EditCourseDto,
+    @Headers('Authorization') auth: string,
+    @Param('id') courseId: string,
+  ) {
+    try {
+      return await this.courseService.editCourse({
+        editCourseDto,
+        auth,
+        courseId,
+      });
+    } catch (error: any) {
+      const message: string =
+        typeof error.message === 'string' ? error.message : 'Server error';
+      throw new ConflictException(message);
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @Delete('/:id')
+  async removeCourse(
+    @Headers('Authorization') auth: string,
+    @Param('id') courseId: string,
+  ) {
+    try {
+      return await this.courseService.removeCourse({ auth, courseId });
     } catch (error: any) {
       const message: string =
         typeof error.message === 'string' ? error.message : 'Server error';

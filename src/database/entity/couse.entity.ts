@@ -1,10 +1,4 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  OneToOne,
-  JoinColumn,
-} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { User } from './user.entity';
 
 @Entity()
@@ -21,8 +15,7 @@ export class Course {
   @Column({ nullable: true, type: 'text' })
   url: string;
 
-  @OneToOne(() => User, (user) => user.id, { cascade: true })
-  @JoinColumn()
+  @ManyToOne(() => User, (user) => user.id)
   user: User;
 
   @Column({ default: 1, nullable: false })
