@@ -1,15 +1,17 @@
-import { Injectable, ConflictException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from '../database/dto/user/create-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../database/entity/user.entity';
 import { UpdateUserDto } from '../database/dto/user/update-user.dto';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    private authService: AuthService,
   ) {}
   async getUsers() {
     return await this.userRepository
@@ -25,14 +27,8 @@ export class UserService {
     return await this.userRepository.save(userObj);
   }
 
-  async updateUser(dataObj: { updateUserDto: UpdateUserDto; userId: number }) {
-    const userObj: User = await this.userRepository
-      .createQueryBuilder('u')
-      .where('u.id=:userid', { userid: dataObj.userId })
-      .getOne();
-    if (!userObj) {
-      throw new ConflictException('No users');
-    }
+  async updateUser(dataObj: { updateUserDto: UpdateUserDto; auth: string }) {
+    const userObj: User = await this.authService.getUserFromToken(dataObj.auth);
     if (
       dataObj &&
       dataObj.updateUserDto &&

@@ -10,8 +10,6 @@ import { EditCourseDto } from '../database/dto/course/edit-course.dto';
 @Injectable()
 export class CourseService {
   constructor(
-    @InjectRepository(User)
-    private userRepository: Repository<User>,
     @InjectRepository(Course) private courseRepository: Repository<Course>,
     private authService: AuthService,
   ) {}

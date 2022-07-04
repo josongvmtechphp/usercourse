@@ -5,7 +5,7 @@ import {
   Body,
   ConflictException,
   Put,
-  Param,
+  Headers,
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -47,13 +47,13 @@ export class UserController {
 
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  @Put('/:id')
+  @Put()
   async editUser(
     @Body() updateUserDto: UpdateUserDto,
-    @Param('id') userId: number,
+    @Headers('Authorization') auth: string,
   ) {
     try {
-      await this.userService.updateUser({ userId, updateUserDto });
+      await this.userService.updateUser({ auth, updateUserDto });
       return { success: true };
     } catch (error: any) {
       const message: string =
